@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bootstrap Login &amp; Register Templates</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="src/assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="src/assets/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="src/assets/css/form-elements.css">
+        <link rel="stylesheet" href="src/assets/css/style.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="src/assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="src/assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="src/assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="src/assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="src/assets/ico/apple-touch-icon-57-precomposed.png">
+
+    </head>
+<body>
+<!-- Top content -->
+        <div class="top-content">
+
+            <div class="inner-bg">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1>Lutfen Sozleşmeyi <strong>Okuyun</strong></h1>
+                            <div class="description">
+                            	<p>
+	                            	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras suscipit, augue vel pulvinar tristique, diam leo sodales libero, quis vestibulum urna odio a urna. Morbi blandit aliquam sapien, vel gravida ex interdum pulvinar. Nunc sodales lobortis felis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam egestas sit amet dolor vel bibendum. Morbi aliquam lobortis erat eget sodales. Quisque aliquam finibus arcu, id dictum risus lacinia ut. Suspendisse et pellentesque odio.
+Pellentesque fringilla nulla quis egestas maximus. Mauris id fringilla arcu. Duis imperdiet metus et tellus laoreet, ut venenatis risus vestibulum. Proin a feugiat metus. Etiam eleifend eros in facilisis lobortis. Maecenas vel vehicula mi. In ut odio porta est blandit volutpat a et odio. Fusce lorem nisi, euismod ut finibus non, imperdiet et dolor.
+Duis interdum lacus risus, ut gravida libero varius vitae. Etiam luctus massa finibus arcu scelerisque laoreet in interdum mi. Mauris consectetur pellentesque dolor sed imperdiet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam et lectus pellentesque, faucibus nibh vitae, pharetra urna. Aenean vitae ex convallis, placerat velit nec, vehicula magna. Nullam vel mollis elit. Nunc vel mauris quis sapien interdum semper quis eget dolor. Ut ac rhoncus massa.
+                            	</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% if error %}
+                    <h2><strong>{{error}}</strong></h2>
+                    {% endif %}
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+            <div class="form-box">
+                        		<div class="form-top">
+	                        		<div class="form-top-left">
+	                        			<h3>Şimdi Kayıt Olun</h3>
+	                            		<p>Lütfen tüm alanlari doldurun girdiğiniz email adresinden sizinle iletişime
+                                        geçilecektir</p>
+	                        		</div>
+	                        		<div class="form-top-right">
+	                        			<i class="fa fa-pencil"></i>
+	                        		</div>
+	                            </div>
+	                            <div class="form-bottom">
+                                <form action="" method="post" name="login" class="login-form">
+                                     {{ registerform.hidden_tag() }}
+                                        <div class="form-group">
+                                            {% for message in registerform.email.errors %}
+                                                 <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            {{registerform.email(placeholder="Email Adresinizi Giriniz",class_="form-username form-control")}}
+                                        </div>
+                                        <div class="form-group">
+                                            {% for message in registerform.fullname.errors %}
+                                            <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            {{registerform.fullname(placeholder="Adınız ve Soyadınız",class_="form-username form-control")}}
+                                        </div>
+                                        <div class="form-group">
+                                            {% for message in registerform.tckimlikno.errors %}
+                                            <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            {{registerform.tckimlikno(placeholder="Tc Kimlik Numaranız",class_="form-username form-control")}}
+                                        </div>
+                                        <div class="form-group">
+                                            {% for message in registerform.hospital.errors %}
+                                            <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            {{registerform.hospital(placeholder="Çalıştığınız Hastahane",class_="form-username form-control")}}
+                                        </div>
+                                        <div class="form-group">
+                                            {% for message in registerform.city.errors %}
+                                            <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            {{registerform.city(placeholder="Yaşadığınız Şehir",class_="form-username form-control")}}
+                                        </div>
+                                        <div class="form-group">
+                                            {% for message in registerform.birthday.errors %}
+                                            <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            {{registerform.birthday(placeholder="Dogum Tarihiniz gun-ay-yıl şeklinde",class_="form-control")}}
+                                        </div>
+                                        <div class="form-group">
+                                            {% for message in registerform.password.errors %}
+                                            <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            {{registerform.password(placeholder="Şifrenizi Giriniz",class_="form-password form-control")}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{registerform.confirm(placeholder="Tekrar Şifrenizi Giriniz",class_="form-password form-control")}}
+                                        </div>
+                                        <div class="form-group">
+                                            {% for message in registerform.accept_tos.errors %}
+                                            <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            <h3 style="color:#FFF">Sozleşmeyi okudum ve kabul ediyorum {{registerform.accept_tos}}</h3>
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn" name="submit" type="submit" value="Kayıt Ol">Kayıt Ol</button>
+                                        </div>
+                                </form>
+                                </div>
+                        	</div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+        	<div class="container">
+        		<div class="row">
+
+        			<div class="col-sm-8 col-sm-offset-2">
+        				<div class="footer-border"></div>
+        				<p><i class="fa fa-smile-o"></i> Made by Alper Fırat Kaya and Batuhan Çoşkun with Flask and Bootstrap <i class="fa fa-smile-o"></i></p>
+        			</div>
+
+        		</div>
+        	</div>
+        </footer>
+
+        <!-- Javascript -->
+        <script src="src/assets/js/jquery-1.11.1.min.js"></script>
+        <script src="src/assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="src/assets/js/jquery.backstretch.min.js"></script>
+        <script src="src/assets/js/scripts.js"></script>
+
+        <!--[if lt IE 10]>
+            <script src="src/assets/js/placeholder.js"></script>
+        <![endif]-->
+
+
+</body>
+</html>

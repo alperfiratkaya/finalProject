@@ -1,0 +1,44 @@
+
+<script src="src/libraries/snake.js"> </script>
+<style>
+    body {text-align:center;}
+    canvas { border:5px dotted #ccc; }
+</style>
+{% if loggedin %}
+{%extends "base.html"%}
+{% block content %}
+
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1><strong>403</strong></h1>
+                            <div class="description">
+                            	<p>
+                                    Bu sayfaya girmeye yetkiniz bulunmamakta isterseniz biraz yılan oynayıp giriş yapmayı deneyin
+                            	</p>
+                            </div>
+                        </div>
+                    </div>
+                <div style="margin:10px;"><a href="/index"><button class="btn btn-primary">Anasayfa</button></a></div>
+<div id="msg"></div>
+<div onload="play_game()"><canvas id="playArea" width="450" height="300">HTML5 destekleyen bir browser kullanmanız lazım</canvas>
+</div>
+{% endblock %}
+{% else %}
+<div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1><strong>403</strong></h1>
+                            <div class="description">
+                            	<p>
+                                    Bu sayfaya girmeye yetkiniz bulunmamakta isterseniz biraz yılan oynayıp giriş yapmayı deneyin
+                            	</p>
+                            </div>
+                        </div>
+                    </div>
+                <div style="margin:10px;"><a href="/landingPage"><button class="btn btn-primary">Anasayfa</button></a></div>
+<div id="msg"></div>
+<div><canvas id="playArea" width="450" height="300">HTML5 destekleyen bir browser kullanmanız lazım</canvas>
+<script type="text/javascript">
+    play_game();
+</script>
+</div>
+{% endif %}

@@ -1,0 +1,14 @@
+
+{%extends "base.html"%}
+{% block content %}
+<div>
+<button><a href="/createform">Create Form Template</a></button>
+<button><a href="/insertrecord">Create New Form For Patient</a></button>
+
+    <div>
+        {%for form in forms %}
+         <div>{{form.title}} </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+
+
+
+{%extends "base.html"%}
+{% block content %}
+    <div style="margin-top: 20px">
+
+      <div id="formBuilder"></div>
+
+    </div>
+
+    <script>
+
+      $('#formBuilder').formBuilder({
+
+        load_url: 'src/json/example.json',
+        save_url: '{{ base_url }}/save',
+
+        onSaveForm: function() {
+          // redirect to demo page
+          window.location.href = '{{ base_url }}/render';
+        }
+      });
+
+    </script>
+{% endblock %}
