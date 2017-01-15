@@ -2,6 +2,7 @@
 import json
 
 import bcrypt
+from flask import make_response
 from werkzeug.utils import redirect
 
 from app import app, mongo
@@ -10,13 +11,20 @@ from config import config
 from flask import url_for, session, render_template, request, flash, abort
 from formbuilder import formLoader
 from datetime import datetime
+import json
+from bson import ObjectId,json_util
+
+
+@app.route("/asd")
+def asd():
+    return render_template("base.html")
 
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     if 'username' in session:
         user = mongo.db.doctors.find_one({"email": session["username"]})
-        session["user"] = user
+        session["user"] = json_util.dumps(user)
         forms = mongo.db.form_templates.find()
         return render_template("index.html", user=user, forms=forms)
     abort(403)
@@ -35,19 +43,28 @@ def landingPage():
                     user = mongo.db.doctors.find_one({"email": email})
                     if user is not None:
                         if bcrypt.hashpw(password.encode('utf-8'), user['password']) == user['password']:
+                            print("şifre kabul")
                             session['username'] = email
-                            if user['admin'] is not None:
+                            if 'admin' in user:
+                                print("bu adam admin")
                                 session['admin'] = email
-                                return render_template("admin.html")
+                                return redirect(url_for('admin'))
+                            print("nedense index")
                             return redirect(url_for('index'))
                         else:
                             return render_template('landingPage.html', loginform=loginform,
                                                    error="Email ve ya Şifre Hatali")
+                    else:
+                        return render_template('landingPage.html', loginform=loginform,
+                                               error="Email ve ya Şifre Hatali")
                 else:
-                    return render_template("landingPage.html", loginform=loginform, error="Email ve ya Şifre Hatalı")
+                    return render_template("landingPage.html", loginform=loginform,
+                                           error="Lutfen Alanlara uygun parametreler girin")
 
         elif request.method == 'GET':
             return render_template('landingPage.html', loginform=loginform)
+    elif 'admin' in session:
+        return redirect(url_for('admin'))
     return redirect(url_for('index'))
 
 
@@ -93,26 +110,76 @@ def register():
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
+    print("geldim admindeyim")
     if 'admin' in session:
+        print("adam adminmiş")
+        if 'submit' in request.form:
+            print(request.form['submit'])
         return render_template("admin.html")
     else:
         abort(403)
 
 
+@app.route("/approvedoctor", methods=['GET', 'POST'])
+def approvedoctor():
+    if 'admin' in session:
+        unapporevedDoctors = mongo.db.unauthorizedDoctors.find()
+        if 'onayla' in request.form:
+            print("Button clicked")
+            email = request.form["onayla"]
+            doctor = mongo.db.unauthorizedDoctors.find_one({'email': email})
+            print(doctor)
+            mongo.db.doctors.insert(doctor)
+            mongo.db.unauthorizedDoctors.remove({'email': email})
+        elif 'reddet' in request.form:
+            print("reddet clicked")
+            email = request.form["reddet"]
+            mongo.db.unauthorizedDoctors.remove({'email': email})
+        return render_template("approvedoctor.html", undoctor=unapporevedDoctors)
+    else:
+        abort(403)
+
+
+@app.route("/approveform", methods=['GET', 'POST'])
+def approveform():
+    if 'admin' in session:
+        unapporevedForms = mongo.db.unauthorizedFormTemplates.find()
+        if 'onizleme' in request.form:
+            title = request.form["onizleme"]
+            form = mongo.db.unauthorizedFormTemplates.find_one({'title': title})
+            form_loader = formLoader(json_util.dumps(form), '{0}/submit'.format(config['base_url']))
+            render_form = form_loader.render_form()
+            response = make_response(render_template('render.html', render_form=render_form))
+            return response
+        if 'onayla' in request.form:
+            title = request.form["onayla"]
+            form = mongo.db.unauthorizedFormTemplates.find_one({'title': title})
+            mongo.db.form_templates.insert(form)
+            mongo.db.unauthorizedFormTemplates.remove({'title': title})
+        elif 'reddet' in request.form:
+            title = request.form["reddet"]
+            mongo.db.unauthorizedFormTemplates.remove({'title': title})
+        return render_template("approveform.html", forms=unapporevedForms)
+    else:
+        abort(403)
+
 @app.route("/logout")
 def logout():
     if checkSession():
         session.clear()
-        return render_template('landingPage.html', loginform=LoginForm(request.form), error="Başari ile Çıkış Yaptınız")
+        return render_template('landingPage.hhtmltml', loginform=LoginForm(request.form),
+                               error="Başari ile Çıkış Yaptınız")
     else:
         abort(403)
 
-@app.route('/createform', methods=['POST'])
+
+@app.route('/createform', methods=['POST','GET'])
 def createform():
     if checkSession():
         return render_template('createform.html', base_url=config['base_url'])
     else:
         abort(403)
+
 
 @app.route('/save', methods=['POST'])
 def save():
@@ -125,8 +192,9 @@ def save():
             jsonString = json.loads(formData)
             print(jsonString)
             existingFormTemplate = mongo.db.form_templates.find_one({'title': jsonString['title']})
-            if existingFormTemplate is None:
-                mongo.db.form_templates.insert_one(jsonString)
+            unAuothorizedexistingFormTemplate = mongo.db.unauthorizedFormTemplates.find_one({'title': jsonString['title']})
+            if existingFormTemplate is None and unAuothorizedexistingFormTemplate is None:
+                mongo.db.unauthorizedFormTemplates.insert_one(jsonString)
                 session['form_data'] = formData
             else:
                 session.pop('form_data', None)
@@ -134,6 +202,7 @@ def save():
             return 'tes'
     else:
         abort(403)
+
 
 @app.route('/render')
 def render():
@@ -143,12 +212,13 @@ def render():
 
         form_data = session['form_data']
         session['form_data'] = None
-
+        print(form_data)
         form_loader = formLoader(form_data, '{0}/submit'.format(config['base_url']))
         render_form = form_loader.render_form()
         return render_template('render.html', render_form=render_form)
     else:
         abort(403)
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -159,6 +229,7 @@ def submit():
             return form
     else:
         abort(403)
+
 
 def checkSession():
     if 'username' in session:
@@ -185,3 +256,9 @@ def method_not_allowed_error(e):
 @app.errorhandler(403)
 def forbidden(e):
     return render_template("forbidden.html"), 403
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
