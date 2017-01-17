@@ -1,0 +1,80 @@
+{%if admin%}
+{%extends "adminbase.html"%}
+{%else%}
+{%extends "base.html"%}
+{%endif%}
+{%block helper%}
+<div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Hasta Raporu</small></h3>
+              </div>
+            </div>
+             <div class="clearfix"></div>
+            <div class="container">
+              <!-- Doktor -->
+              <div class="col-md-6 col-xs-9">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Doktor Bilgileri</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <p>Adı:{{doctor.fullname}}</p>
+                  <p>Tc Kimlik No:{{doctor.tckimlikno}}</p>
+                  <p>Email:{{doctor.email}}</p>
+                  <p>Şehir :{{doctor.fullname}}</p>
+                  <p>Hastane: :{{doctor.hospital}}</p>
+                </div>
+              </div>
+              <!-- Hasta -->
+              <div class="col-md-6 col-xs-9">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Hasta Bilgileri</h2>
+                    <div class="clearfix">
+                    </div>
+                    </div>
+                  <p>Adı:{{patient.fullname}}</p>
+                  <p>Tc Kimlik No:{{patient.tckimlikno}}</p>
+                  <p>Email:{{patient.email}}</p>
+                  <p>Telefon:{{patient.phone}}</p>
+                  <p>Doğum Tarihi: :{{patient.birthday}}</p>
+                  </div>
+              </div>
+
+
+            </div>
+
+            <div class="clearfix"></div>
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>{{form_template.title}}</h2>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <table id="datatable-buttons" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Alan Adı</th>
+                          <th>Değeri</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for k in form_data %}
+                            <tr>
+                              <td>{{k.title}}</td>
+                              <td>{{k.value}}</td>
+                            </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock %}

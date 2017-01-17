@@ -1,0 +1,45 @@
+{%if admin%}
+{%extends "adminhelper.html"%}
+{%else%}
+{%extends "helper.html"%}
+{%endif%}
+{% block content %}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Profil Sayfasi</h3>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                        <div class="col-md-6 col-xs-9">
+                            <div class="x_panel">
+                             <div class="x_title">
+                              <h2>Profil Bilgileri</h2>
+                                 <div class="clearfix"></div>
+                            </div>
+                  <p>Adı:{{doctor.fullname}}</p>
+                             <p>Tc Kimlik No:{{doctor.tckimlikno}}</p>
+                  <p>Email:{{doctor.email}}</p>
+                  <p>Şehir :{{doctor.fullname}}</p>
+                  <p>Hastane: :{{doctor.hospital}}</p>
+                </div>
+              </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- /page content -->
+
+
+{% endblock %}

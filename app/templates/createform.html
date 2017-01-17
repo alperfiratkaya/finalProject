@@ -1,8 +1,12 @@
 
-
-
-{%extends "base.html"%}
+{%if admin%}
+{%extends "adminhelper.html"%}
+{%else%}
+{%extends "helper.html"%}
+{%endif%}
 {% block content %}
+<!-- page content -->
+
     <div style="margin-top: 20px">
 
       <div id="formBuilder"></div>

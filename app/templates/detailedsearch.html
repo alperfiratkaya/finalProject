@@ -1,12 +1,16 @@
+{%if admin%}
 {%extends "adminbase.html"%}
-{% block helper %}
+{%else%}
+{%extends "base.html"%}
+{%endif%}
+{%block helper%}
 
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Kayıt Olmak İstiyen Doktorlar </h3>
+                <h3>Hasta Araması</h3>
               </div>
             </div>
 
@@ -14,34 +18,37 @@
 
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Hasta Tablosu</h2>
+                    <div class="clearfix"></div>
+                  </div>
                   <div class="x_content">
-                    <h4 class="text-muted font-13 m-b-30">
-                      Onaylamak Istedikleriniz için <strong>Onayla</strong> tuşunu Reddetmek istedikleriniz için <strong>Reddet</strong>   tuşunu Kullanınız
-                    </h4>
+                    <p class="text-muted font-13 m-b-30">
+                      Sağ Tarafta Bulunan Arama kutusunu kullanarak istediğiniz hastayı bulabilirsiniz Kayıtlarını gormek için
+                      <strong>Detaylı Gor</strong> tuşunu kullanınız
+                    </p>
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">                      <thead>
                         <tr>
                           <th>İsim</th>
-                          <th>Şehir</th>
-                          <th>Hastane</th>
-                          <th>Doğum Tarihi</th>
+                          <th>Telefon Numarasi</th>
                           <th>Tc Kimlik No</th>
                           <th>Email Adresi</th>
-                          <th>Onayla</th>
-                          <th>Reddet</th>
+                          <th>Doğum Tarihi</th>
+                          <th>Detay</th>
                         </tr>
                       </thead>
+
+
                       <tbody>
-                        {%for doctor in undoctor%}
+                        {%for patient in patients%}
                         <tr>
-                          <td>{{doctor.fullname}}</td>
-                          <td>{{doctor.city}}</td>
-                          <td>{{doctor.hospital}}</td>
-                          <td>{{doctor.birthday}}</td>
-                          <td>{{doctor.tckimlikno}}</td>
-                          <td>{{doctor.email}}</td>
+                          <td>{{patient.fullname}}</td>
+                          <td>{{patient.phone}}</td>
+                          <td>{{patient.tckimlikno}}</td>
+                          <td>{{patient.email}}</td>
+                          <td>{{patient.birthday}}</td>
                           <form action="" method="post" name="login" class="login-form">
-                          <td><button class="btn" id="onayla" name="onayla" type="submit" value="{{doctor.email}}">Onayla</button></td>
-                          <td><button class="btn" id="reddet" name="reddet" type="submit" value="{{doctor.email}}">Reddet</button></td>
+                          <td><button class="btn" id="detay" name="detay" type="submit" value="{{patient.tckimlikno}}">Detaylı Gor</button></td>
                           </form>
                         </tr>
                         {% endfor %}
@@ -52,7 +59,7 @@
               </div>
             </div>
           </div>
-        <!-- /page content -->
+
 
 
 {% endblock %}

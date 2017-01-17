@@ -4,5 +4,5 @@ MONGO_DBNAME = 'firat'
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 config = {
-    'base_url': 'http://192.168.0.16:9000',
+    'base_url': 'http://192.168.57.223:9000',
 }

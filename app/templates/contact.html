@@ -1,0 +1,42 @@
+{%if admin%}
+{%extends "adminhelper.html"%}
+{%else%}
+{%extends "helper.html"%}
+{%endif%}
+{% block content %}
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+            <div class="form-box">
+                        		<div class="form-top">
+	                        		<div class="form-top-left">
+	                        			<h3>Bize Ulaşın</h3>
+	                        		</div>
+	                        		{% if error%}
+                                    <h3><strong>{{error}}</strong></h3>
+                                    {% endif %}
+	                            </div>
+	                            <div class="form-bottom">
+                                <form action="" method="post" name="login" class="login-form">
+                                     {{ form.hidden_tag() }}
+                                        <div class="form-group">
+                                            {% for message in form.konu.errors %}
+                                                 <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            {{form.konu(placeholder="Mesajın Konusu",class_="form-username form-control")}}
+                                        </div>
+                                        <div class="form-group">
+                                            {% for message in form.message.errors %}
+                                            <h4 style="color:#bc2f2f">{{message}}</h4>
+                                            {% endfor %}
+                                            {{form.message(placeholder="Mesajın İçeriği....",class_="form-username form-control",rows=10)}}
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn" name="submit" type="submit" value="Hasta Kaydet">Mesajı Gonder</button>
+                                        </div>
+                                </form>
+                                </div>
+                        	</div>
+
+                        </div>
+                    </div>
+{% endblock %}
